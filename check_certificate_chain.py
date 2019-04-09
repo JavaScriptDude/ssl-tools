@@ -1,7 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # By: Lawrence Ong
 # Created: 20161029
+# Edited by: Timothy C. Quinn
+# Edit date: 20190409
 # Description: To quickly get the SSL certificate chain from an endpoint
 
 from sys import argv, stdout
@@ -47,6 +49,15 @@ def main():
         print("- [Valid from]:\t\t{}".format(cert.get_notBefore()))
         print("- [Valid until]:\t{}".format(cert.get_notAfter()))
         print("- [Has Expired]:\t{}".format(cert.has_expired()))
+        
+        # Cert Extensions:
+        print("- >> Extensions:")
+        for i in range(cert.get_extension_count()):
+            ext = cert.get_extension(i)
+            print("    - [{}]: {}".format(
+                ext.get_short_name().decode('utf-8')
+                ,ext.__str__().strip()
+            ))
 
     print("\n")
     client_ssl.close()
